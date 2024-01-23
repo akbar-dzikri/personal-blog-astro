@@ -21,6 +21,12 @@
 </label>
 
 <script lang="ts" is:inline>
+  const setTheme = (theme) => {
+    const htmlTag = document.querySelector("html");
+    htmlTag.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  };
+
   const theme = (() => {
     if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
       return localStorage.getItem("theme");
@@ -31,19 +37,11 @@
     return "myLight";
   })();
 
-  if (theme === "myLight") {
-    document.documentElement.classList.remove("myDark");
-  } else {
-    document.documentElement.classList.add("myLight");
-  }
-
-  window.localStorage.setItem("theme", theme);
+  setTheme(theme);
 
   const handleToggleClick = (event) => {
-    const htmlTag = document.querySelector("html");
-    event.target.checked
-      ? htmlTag.setAttribute("data-theme", "myDark")
-      : htmlTag.setAttribute("data-theme", "myLight");
+    const newTheme = event.target.checked ? "myDark" : "myLight";
+    setTheme(newTheme);
   };
 
   document
